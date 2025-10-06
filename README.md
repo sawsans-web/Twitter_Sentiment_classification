@@ -9,7 +9,6 @@ cd Twitter_Sentiment_classification
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
-   pip install gdown
 
 3.  Make sure `model.pkl` is in the repo folder.
 4.  Run the predictor:
