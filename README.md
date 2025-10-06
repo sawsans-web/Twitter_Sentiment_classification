@@ -38,3 +38,5 @@ source venv/bin/activate
 ## Model
 The trained model file is `model.pkl`, included in this repository.
 
+### Dataset Link 
+https://www.kaggle.com/datasets/kazanova/sentiment140
