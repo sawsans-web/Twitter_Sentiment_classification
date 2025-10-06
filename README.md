@@ -10,6 +10,9 @@ cd Twitter_Sentiment_classification
 2. Create and activate the virtual environment (Windows):
 ```bash
 python -m venv venv
+```
+
+```bash
 venv\Scripts\activate
 ```
 
@@ -27,7 +30,8 @@ source venv/bin/activate
 3.  Make sure `model.pkl` is in the repo folder.
 4.  Run the predictor:
   ```bash
-  python predict.py ```
+  python predict.py
+```
 
 5. If `vectorizer.pkl` is missing, it will be downloaded automatically from Google Drive.
 
