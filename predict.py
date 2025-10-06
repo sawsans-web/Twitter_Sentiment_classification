@@ -28,7 +28,7 @@ if not os.path.exists(VECTORIZER_PATH):
     download_vectorizer()
 
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f"Model file '{MODEL_PATH}' not found. Please place it in the same folder.")
+    raise FileNotFoundError(f"Model file '{MODEL_PATH}' not found. Please download it from Github or contact the repo owner.")
 
 with open(VECTORIZER_PATH, "rb") as f:
     vectorizer = pickle.load(f)
@@ -74,12 +74,28 @@ def predict_sentiment(text):
     y_pred = model.predict(vec)[0]
     return "Positive" if y_pred == 1 else "Negative"
 
+def predict_sentiment(text):
+    cleaned = clean_text(text)
+    vec = vectorizer.transform([cleaned])
+    y_pred = model.predict(vec)[0]
+    return "Positive" if y_pred == 1 else "Negative"
+
 if __name__ == "__main__":
     print("Sentiment Predictor")
     print("-------------------")
     while True:
-        inp = input("Enter text (or 'quit' to exit): ")
+        inp = input("Enter text or path to text file (or 'quit' to exit): ")
         if inp.lower() in ("quit", "exit"):
             break
-        result = predict_sentiment(inp)
-        print("Predicted sentiment:", result)
+        
+        if os.path.exists(inp) and os.path.isfile(inp):
+            with open(inp, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line:  
+                        result = predict_sentiment(line)
+                        print(f"{line} -> {result}")
+        else:
+            result = predict_sentiment(inp)
+            print("Predicted sentiment:", result)
+

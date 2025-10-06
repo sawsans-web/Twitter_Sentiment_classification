@@ -5,8 +5,17 @@ git clone https://github.com/sawsansalameh222/Twitter_Sentiment_classification.g
 
 cd Twitter_Sentiment_classification
 
+2. Create and activate the virtual environment (Windows):
+python -m venv venv
+venv\Scripts\activate
 
-2. Install dependencies:
+
+On Mac/Linux:
+python3 -m venv venv
+source venv/bin/activate
+
+
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
 
