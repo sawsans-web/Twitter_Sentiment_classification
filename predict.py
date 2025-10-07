@@ -19,9 +19,9 @@ nltk_packages = [
 
 for pkg in nltk_packages:
     try:
-        nltk.data.find(f"corpora/{pkg}")
-    except LookupError:
-        nltk.download(pkg)
+        nltk.download(pkg, quiet=True)
+    except:
+        print(f"Failed to download {pkg}")
 
 try:
     import gdown
