@@ -3,11 +3,25 @@ import pickle
 import re
 import emoji
 import contractions
-
+import argparse
+import nltk
 from nltk import pos_tag
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+nltk_packages = [
+    "stopwords",
+    "wordnet",
+    "omw-1.4",  
+    "averaged_perceptron_tagger",
+    "punkt"
+]
+
+for pkg in nltk_packages:
+    try:
+        nltk.data.find(f"corpora/{pkg}")
+    except LookupError:
+        nltk.download(pkg)
 
 try:
     import gdown
@@ -71,31 +85,27 @@ def clean_text(text):
 def predict_sentiment(text):
     cleaned = clean_text(text)
     vec = vectorizer.transform([cleaned])
+    if vec.nnz == 0:  
+        return "Input outside trained vocabulary"
     y_pred = model.predict(vec)[0]
     return "Positive" if y_pred == 1 else "Negative"
 
-def predict_sentiment(text):
-    cleaned = clean_text(text)
-    vec = vectorizer.transform([cleaned])
-    y_pred = model.predict(vec)[0]
-    return "Positive" if y_pred == 1 else "Negative"
 
 if __name__ == "__main__":
-    print("Sentiment Predictor")
-    print("-------------------")
-    while True:
-        inp = input("Enter text or path to text file (or 'quit' to exit): ")
-        if inp.lower() in ("quit", "exit"):
-            break
-        
-        if os.path.exists(inp) and os.path.isfile(inp):
-            with open(inp, 'r', encoding='utf-8') as f:
-                for line in f:
-                    line = line.strip()
-                    if line:  
-                        result = predict_sentiment(line)
-                        print(f"{line} -> {result}")
-        else:
-            result = predict_sentiment(inp)
-            print("Predicted sentiment:", result)
+    parser = argparse.ArgumentParser(description="Sentiment Predictor CLI")
+    parser.add_argument("--input", type=str, required=True, help="Text or path to text file for prediction")
+    args = parser.parse_args()
+
+    inp = args.input
+
+    if os.path.exists(inp) and os.path.isfile(inp):
+        with open(inp, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    result = predict_sentiment(line)
+                    print(f"{line} -> {result}")
+    else:
+        result = predict_sentiment(inp)
+        print("Predicted sentiment:", result)
 
