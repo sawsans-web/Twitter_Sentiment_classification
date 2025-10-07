@@ -11,7 +11,6 @@ cd Twitter_Sentiment_classification
 
 2. Create and activate the virtual environment (Windows):
 ```bash
-```bash
 python -m venv venv
 venv\Scripts\activate
 ```
